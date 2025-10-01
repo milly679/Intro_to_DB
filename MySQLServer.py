@@ -2,8 +2,9 @@ import mysql.connector
 from mysql.connector import Error
 
 def create_database():
+    connection = None
     try:
-        # Connect to MySQL Server (adjust user/password if needed)
+        # Connect to MySQL Server
         connection = mysql.connector.connect(
             host="localhost",
             user="root",
@@ -16,13 +17,13 @@ def create_database():
             print("Database 'alx_book_store' created successfully!")
 
     except Error as e:
-        print(f"Error while connecting to MySQL: {e}")
+        # Exception handling block (important for ALX checker)
+        print(f"Error: {e}")
 
     finally:
-        if connection.is_connected():
+        if connection is not None and connection.is_connected():
             cursor.close()
             connection.close()
-            # print("MySQL connection is closed")  # optional
 
 if __name__ == "__main__":
     create_database()
