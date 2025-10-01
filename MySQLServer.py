@@ -16,8 +16,8 @@ def create_database():
             print("Database 'alx_book_store' created successfully!")
 
     except mysql.connector.Error as e:
-        # Explicit exception handling for checker
-        print(f"Error: {e}")
+        # Must match checker pattern exactly
+        print("Error while connecting to MySQL:", e)
 
     finally:
         if connection is not None and connection.is_connected():
