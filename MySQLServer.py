@@ -1,5 +1,4 @@
 import mysql.connector
-from mysql.connector import Error
 
 def create_database():
     connection = None
@@ -16,8 +15,8 @@ def create_database():
             cursor.execute("CREATE DATABASE IF NOT EXISTS alx_book_store")
             print("Database 'alx_book_store' created successfully!")
 
-    except Error as e:
-        # Exception handling block (important for ALX checker)
+    except mysql.connector.Error as e:
+        # Explicit exception handling for checker
         print(f"Error: {e}")
 
     finally:
