@@ -1,4 +1,5 @@
--- USE THE DATABASE
+-- CREATE DATABASE
+CREATE DATABASE IF NOT EXISTS alx_book_store;
 USE alx_book_store;
 
 -- CREATE AUTHORS TABLE
@@ -35,10 +36,10 @@ CREATE TABLE IF NOT EXISTS orders (
 
 -- CREATE ORDER_DETAILS TABLE
 CREATE TABLE IF NOT EXISTS order_details (
-    orderdetailid INT AUTO_INCREMENT PRIMARY KEY,
+    orderdetail_id INT AUTO_INCREMENT PRIMARY KEY,
     order_id INT,
     book_id INT,
-    quantity DOUBLE NOT NULL,
+    quantity INT NOT NULL,
     FOREIGN KEY (order_id) REFERENCES orders(order_id),
     FOREIGN KEY (book_id) REFERENCES books(book_id)
 );
