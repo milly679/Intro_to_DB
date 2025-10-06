@@ -1,18 +1,18 @@
 -- SQL script to create all necessary tables for the alx_book_store database.
--- Table names and SQL keywords are strictly capitalized to match testing requirements.
--- The database name is expected to be passed as an argument to the mysql command.
+-- Table names and column definitions are strictly based on test feedback from Task 0.
+-- All SQL keywords are in UPPERCASE.
 
 -- 1. AUTHORS Table
 CREATE TABLE Authors (
     author_id INT NOT NULL,
-    author_name VARCHAR(255) NOT NULL,
+    author_name VARCHAR(215) NOT NULL,
     PRIMARY KEY (author_id)
 );
 
 -- 2. BOOKS Table
 CREATE TABLE Books (
     book_id INT NOT NULL,
-    title VARCHAR(255) NOT NULL,
+    title VARCHAR(215) NOT NULL,
     author_id INT,
     price DECIMAL(10, 2) NOT NULL,
     publication_date DATE,
@@ -20,12 +20,12 @@ CREATE TABLE Books (
     FOREIGN KEY (author_id) REFERENCES Authors(author_id)
 );
 
--- 3. CUSTOMERS Table
+-- 3. CUSTOMERS Table (UPDATED to match VARCHAR(215) and TEXT)
 CREATE TABLE Customers (
     customer_id INT NOT NULL,
-    customer_name VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL UNIQUE,
-    address VARCHAR(255),
+    customer_name VARCHAR(215) NOT NULL,
+    email VARCHAR(215) NOT NULL UNIQUE,
+    address TEXT,
     PRIMARY KEY (customer_id)
 );
 
@@ -38,14 +38,14 @@ CREATE TABLE Orders (
     FOREIGN KEY (customer_id) REFERENCES Customers(customer_id)
 );
 
--- 5. ORDER_DETAILS Table (must use underscore and capitalization)
+-- 5. ORDER_DETAILS Table (using standard primary key and foreign keys)
 CREATE TABLE Order_Details (
     order_detail_id INT NOT NULL AUTO_INCREMENT,
     order_id INT NOT NULL,
     book_id INT NOT NULL,
-    quantity DOUBLE NOT NULL, -- Changed type to DOUBLE just in case it expects a numeric/float type for quantity
+    quantity INT NOT NULL,
     PRIMARY KEY (order_detail_id),
-    UNIQUE KEY (order_id, book_id), -- Optional constraint, but good practice
+    UNIQUE KEY (order_id, book_id),
     FOREIGN KEY (order_id) REFERENCES Orders(order_id),
     FOREIGN KEY (book_id) REFERENCES Books(book_id)
 );
