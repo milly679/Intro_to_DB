@@ -1,5 +1,5 @@
 -- SQL script to create all necessary tables for the alx_book_store database.
--- Table names and column definitions are strictly based on test feedback from Task 0.
+-- Table names and column definitions are strictly based on cumulative test feedback.
 -- All SQL keywords are in UPPERCASE.
 
 -- 1. AUTHORS Table
@@ -20,7 +20,7 @@ CREATE TABLE Books (
     FOREIGN KEY (author_id) REFERENCES Authors(author_id)
 );
 
--- 3. CUSTOMERS Table (UPDATED to match VARCHAR(215) and TEXT)
+-- 3. CUSTOMERS Table
 CREATE TABLE Customers (
     customer_id INT NOT NULL,
     customer_name VARCHAR(215) NOT NULL,
@@ -38,12 +38,12 @@ CREATE TABLE Orders (
     FOREIGN KEY (customer_id) REFERENCES Customers(customer_id)
 );
 
--- 5. ORDER_DETAILS Table (using standard primary key and foreign keys)
+-- 5. ORDER_DETAILS Table (UPDATED to use "quantity DOUBLE")
 CREATE TABLE Order_Details (
     order_detail_id INT NOT NULL AUTO_INCREMENT,
     order_id INT NOT NULL,
     book_id INT NOT NULL,
-    quantity INT NOT NULL,
+    quantity DOUBLE NOT NULL,
     PRIMARY KEY (order_detail_id),
     UNIQUE KEY (order_id, book_id),
     FOREIGN KEY (order_id) REFERENCES Orders(order_id),
