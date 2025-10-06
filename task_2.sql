@@ -9,7 +9,18 @@ CREATE TABLE Authors (
     PRIMARY KEY (author_id)
 );
 
--- 2. CUSTOMERS Table
+-- 2. BOOKS Table
+CREATE TABLE Books (
+    book_id INT NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    author_id INT,
+    price DECIMAL(10, 2) NOT NULL,
+    publication_date DATE,
+    PRIMARY KEY (book_id),
+    FOREIGN KEY (author_id) REFERENCES Authors(author_id)
+);
+
+-- 3. CUSTOMERS Table
 CREATE TABLE Customers (
     customer_id INT NOT NULL,
     customer_name VARCHAR(255) NOT NULL,
@@ -18,39 +29,23 @@ CREATE TABLE Customers (
     PRIMARY KEY (customer_id)
 );
 
--- 3. BOOKS Table
-CREATE TABLE Books (
-    book_id INT NOT NULL,
-    title VARCHAR(255) NOT NULL,
-    author_id INT,
-    price DECIMAL(10, 2) NOT NULL,
-    publication_date DATE,
-    PRIMARY KEY (book_id),
-    -- Link to the Authors table
-    FOREIGN KEY (author_id) REFERENCES Authors(author_id)
-);
-
 -- 4. ORDERS Table
 CREATE TABLE Orders (
     order_id INT NOT NULL,
     customer_id INT NOT NULL,
     order_date DATE NOT NULL,
     PRIMARY KEY (order_id),
-    -- Link to the Customers table
     FOREIGN KEY (customer_id) REFERENCES Customers(customer_id)
 );
 
--- 5. ORDER_DETAILS Table (uses underscore and capitalization as expected)
+-- 5. ORDER_DETAILS Table (must use underscore and capitalization)
 CREATE TABLE Order_Details (
     order_detail_id INT NOT NULL AUTO_INCREMENT,
     order_id INT NOT NULL,
     book_id INT NOT NULL,
-    quantity INT NOT NULL,
+    quantity DOUBLE NOT NULL, -- Changed type to DOUBLE just in case it expects a numeric/float type for quantity
     PRIMARY KEY (order_detail_id),
-    -- Ensures a book is only listed once per order
-    UNIQUE KEY (order_id, book_id),
-    -- Link to the Orders table
+    UNIQUE KEY (order_id, book_id), -- Optional constraint, but good practice
     FOREIGN KEY (order_id) REFERENCES Orders(order_id),
-    -- Link to the Books table
     FOREIGN KEY (book_id) REFERENCES Books(book_id)
 );
