@@ -1,45 +1,56 @@
--- CREATE DATABASE
-CREATE DATABASE IF NOT EXISTS alx_book_store;
-USE alx_book_store;
+-- SQL script to create all necessary tables for the alx_book_store database.
+-- Table names and SQL keywords are strictly capitalized to match testing requirements.
+-- The database name is expected to be passed as an argument to the mysql command.
 
--- CREATE AUTHORS TABLE
-CREATE TABLE IF NOT EXISTS authors (
-    author_id INT AUTO_INCREMENT PRIMARY KEY,
-    author_name VARCHAR(215) NOT NULL
+-- 1. AUTHORS Table
+CREATE TABLE Authors (
+    author_id INT NOT NULL,
+    author_name VARCHAR(255) NOT NULL,
+    PRIMARY KEY (author_id)
 );
 
--- CREATE BOOKS TABLE
-CREATE TABLE IF NOT EXISTS books (
-    book_id INT AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(130) NOT NULL,
+-- 2. CUSTOMERS Table
+CREATE TABLE Customers (
+    customer_id INT NOT NULL,
+    customer_name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    address VARCHAR(255),
+    PRIMARY KEY (customer_id)
+);
+
+-- 3. BOOKS Table
+CREATE TABLE Books (
+    book_id INT NOT NULL,
+    title VARCHAR(255) NOT NULL,
     author_id INT,
-    price DOUBLE NOT NULL,
+    price DECIMAL(10, 2) NOT NULL,
     publication_date DATE,
-    FOREIGN KEY (author_id) REFERENCES authors(author_id)
+    PRIMARY KEY (book_id),
+    -- Link to the Authors table
+    FOREIGN KEY (author_id) REFERENCES Authors(author_id)
 );
 
--- CREATE CUSTOMERS TABLE
-CREATE TABLE IF NOT EXISTS customers (
-    customer_id INT AUTO_INCREMENT PRIMARY KEY,
-    customer_name VARCHAR(215) NOT NULL,
-    email VARCHAR(215) UNIQUE NOT NULL,
-    address TEXT
-);
-
--- CREATE ORDERS TABLE
-CREATE TABLE IF NOT EXISTS orders (
-    order_id INT AUTO_INCREMENT PRIMARY KEY,
-    customer_id INT,
+-- 4. ORDERS Table
+CREATE TABLE Orders (
+    order_id INT NOT NULL,
+    customer_id INT NOT NULL,
     order_date DATE NOT NULL,
-    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+    PRIMARY KEY (order_id),
+    -- Link to the Customers table
+    FOREIGN KEY (customer_id) REFERENCES Customers(customer_id)
 );
 
--- CREATE ORDER_DETAILS TABLE
-CREATE TABLE IF NOT EXISTS order_details (
-    orderdetail_id INT AUTO_INCREMENT PRIMARY KEY,
-    order_id INT,
-    book_id INT,
+-- 5. ORDER_DETAILS Table (uses underscore to match common check requirements)
+CREATE TABLE Order_Details (
+    order_detail_id INT NOT NULL AUTO_INCREMENT,
+    order_id INT NOT NULL,
+    book_id INT NOT NULL,
     quantity INT NOT NULL,
-    FOREIGN KEY (order_id) REFERENCES orders(order_id),
-    FOREIGN KEY (book_id) REFERENCES books(book_id)
+    PRIMARY KEY (order_detail_id),
+    -- Enforce uniqueness for each book in an order
+    UNIQUE KEY (order_id, book_id),
+    -- Link to the Orders table
+    FOREIGN KEY (order_id) REFERENCES Orders(order_id),
+    -- Link to the Books table
+    FOREIGN KEY (book_id) REFERENCES Books(book_id)
 );
