@@ -40,14 +40,14 @@ CREATE TABLE Orders (
     FOREIGN KEY (customer_id) REFERENCES Customers(customer_id)
 );
 
--- 5. ORDER_DETAILS Table (uses underscore to match common check requirements)
+-- 5. ORDER_DETAILS Table (uses underscore and capitalization as expected)
 CREATE TABLE Order_Details (
     order_detail_id INT NOT NULL AUTO_INCREMENT,
     order_id INT NOT NULL,
     book_id INT NOT NULL,
     quantity INT NOT NULL,
     PRIMARY KEY (order_detail_id),
-    -- Enforce uniqueness for each book in an order
+    -- Ensures a book is only listed once per order
     UNIQUE KEY (order_id, book_id),
     -- Link to the Orders table
     FOREIGN KEY (order_id) REFERENCES Orders(order_id),
